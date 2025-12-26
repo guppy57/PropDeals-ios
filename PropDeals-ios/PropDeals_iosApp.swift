@@ -11,7 +11,7 @@ import SwiftUI
 struct PropDeals_iosApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+			ContentView()
         }
     }
 }

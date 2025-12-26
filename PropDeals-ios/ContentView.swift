@@ -8,17 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+	@State private var selectedTab: Tab = .properties
+	@State private var showingAddProperty = false
+
+	var body: some View {
+		TabView(selection: $selectedTab) {
+			NavigationStack {
+				PropertiesView()
+			}
+			.tabItem {
+				Label("Properties", systemImage: "house.fill")
+			}
+			.tag(Tab.properties)
+
+			NavigationStack {
+				TourListView()
+			}
+			.tabItem {
+				Label("Tour List", systemImage: "magnifyingglass")
+			}
+			.tag(Tab.tourList)
+		}
+	}
+}
+
+enum Tab: Hashable {
+	case properties, tourList
 }
 
 #Preview {
-    ContentView()
+	ContentView()
 }
+

@@ -5,6 +5,7 @@
 //  Created by Armaan Gupta on 12/26/25.
 //
 
+import Foundation
 import Supabase
 
 
@@ -12,6 +13,6 @@ let SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 let SUPABASE_URL = "https://rpzdldcdswqwclkoosgq.supabase.co"
 
 let supabase = SupabaseClient(
-	supabaseURL: URL(string: SUPABASE_URL),
+	supabaseURL: URL(string: SUPABASE_URL)!,
 	supabaseKey: SUPABASE_KEY,
 )

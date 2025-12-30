@@ -154,6 +154,7 @@ struct TourPropertyDetailView: View {
 		.toolbar(.hidden, for: .tabBar)
 		.toolbar {
 			ToolbarItemGroup(placement: .bottomBar) {
+				// Left button - standalone
 				Button(action: {
 					print("DEBUG: Favorite tapped for property: \(property.address1)")
 				}) {
@@ -162,22 +163,24 @@ struct TourPropertyDetailView: View {
 
 				Spacer()
 
-				Button(action: {
-					print("DEBUG: Mark Toured tapped for property: \(property.address1)")
-				}) {
-					Label("Toured", systemImage: "checkmark.circle")
+				// Middle buttons - grouped together in Liquid Glass capsule
+				ControlGroup {
+					Button(action: {
+						print("DEBUG: Mark Toured tapped for property: \(property.address1)")
+					}) {
+						Label("Toured", systemImage: "checkmark.circle")
+					}
+
+					Button(action: {
+						print("DEBUG: Add Note tapped for property: \(property.address1)")
+					}) {
+						Label("Note", systemImage: "note.text")
+					}
 				}
 
 				Spacer()
 
-				Button(action: {
-					print("DEBUG: Add Note tapped for property: \(property.address1)")
-				}) {
-					Label("Note", systemImage: "note.text")
-				}
-
-				Spacer()
-
+				// Right button - standalone
 				Button(action: {
 					print("DEBUG: Share tapped for property: \(property.address1)")
 				}) {

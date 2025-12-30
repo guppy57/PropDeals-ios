@@ -17,8 +17,37 @@ struct TourListView: View {
 	var body: some View {
 		List(properties) { property in
 			NavigationLink {
-				VStack(alignment: .leading, spacing: 20) {
-					Text("Todo")
+				ScrollView{
+					VStack(alignment: .leading, spacing: 16) {
+						if let price = property.purchasePrice {
+							Text(formatCurrency(price)).bold().font(.title)
+						}
+						HStack(spacing: 4) {
+							if let beds = property.beds {
+								Text("\(beds) beds")
+							}
+							if let baths = property.baths {
+								Text("• \(String(format: "%.1f", baths)) baths")
+							}
+							if let sqft = property.squareFt {
+								Text("• \(formatNumber(sqft)) sqft")
+							}
+							if let units = property.units {
+								if (units == 0) {
+									Text("• SFH")
+								} else if (units == 2) {
+									Text("• Duplex")
+								} else if (units == 3) {
+									Text("• Triplex")
+								} else if (units == 4) {
+									Text("• Fourplex")
+								}
+							}
+						}
+						.font(.subheadline)
+					}
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.padding()
 				}
 				.navigationTitle(property.address1)
 				.navigationBarTitleDisplayMode(.inline)
@@ -37,26 +66,6 @@ struct TourListView: View {
 				let url = URL(string: "https://propdeals-production.up.railway.app/properties/phase1/tour-list")!
 				let (data, _) = try await URLSession.shared.data(from: url)
 
-				// Print the actual JSON response
-				if let jsonString = String(data: data, encoding: .utf8) {
-					print("=== API Response ===")
-					print(jsonString)
-					print("===================")
-				}
-
-				// Try to decode as generic JSON to inspect structure
-				if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-					print("=== Response Structure ===")
-					if let properties = json["properties"] as? [[String: Any]] {
-						print("Number of properties: \(properties.count)")
-						if let firstProperty = properties.first {
-							print("First property keys: \(firstProperty.keys.sorted())")
-							print("Has last_purchase_date? \(firstProperty["last_purchase_date"] != nil)")
-						}
-					}
-					print("=========================")
-				}
-
 				// SQL date formatter for "yyyy-MM-dd" format
 				let sqlDateFormatter: DateFormatter = {
 					let formatter = DateFormatter()
@@ -67,9 +76,10 @@ struct TourListView: View {
 				}()
 
 				let decoder = JSONDecoder()
-				decoder.keyDecodingStrategy = .convertFromSnakeCase
+				// Removed .convertFromSnakeCase - PropertyWithCalculations has explicit CodingKeys
 				decoder.dateDecodingStrategy = .formatted(sqlDateFormatter)
 				let response = try decoder.decode(TourListResponse.self, from: data)
+
 				properties = response.properties
 			} catch {
 				dump(error)

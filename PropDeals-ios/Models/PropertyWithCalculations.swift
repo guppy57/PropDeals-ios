@@ -21,7 +21,7 @@ struct PropertyWithCalculations: Codable, Identifiable {
     let county: String?
 
     // MARK: - Financial Information
-    let purchasePrice: Int?
+    let purchasePrice: Double?
     let lastPurchasePrice: Double?
     var lastPurchaseDate: Date?
     let rentEstimate: Int?
@@ -36,7 +36,7 @@ struct PropertyWithCalculations: Codable, Identifiable {
     // MARK: - Property Characteristics
     let beds: Int?
     let baths: Double?
-    let squareFt: Int?
+    let squareFt: Double?
     let builtIn: Int?
     let units: Int?
 

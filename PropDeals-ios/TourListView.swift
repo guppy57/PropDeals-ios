@@ -13,32 +13,20 @@ struct TourListResponse: Codable {
 
 struct TourListView: View {
 	@State var properties: [PropertyWithCalculations] = []
-	@State private var selectedProperty: PropertyWithCalculations? = nil
-	
+
 	var body: some View {
 		List(properties) { property in
-			Text(property.address1)
-				.onTapGesture {
-					selectedProperty = property
-				}
-		}
-		.navigationTitle("Tour List")
-		.sheet(item: $selectedProperty) { property in
-			NavigationStack {
+			NavigationLink {
 				VStack(alignment: .leading, spacing: 20) {
 					Text("Todo")
 				}
 				.navigationTitle(property.address1)
 				.navigationBarTitleDisplayMode(.inline)
-				.toolbar {
-					ToolbarItem(placement: .cancellationAction) {
-						Button("Done") {
-							selectedProperty = nil
-						}
-					}
-				}
+			} label: {
+				Text(property.address1)
 			}
 		}
+		.navigationTitle("Tour List")
 		.overlay {
 			if properties.isEmpty {
 				ProgressView()

@@ -45,7 +45,7 @@ struct PropertyDetailView: View {
 			}
 			.padding()
 		}
-		.navigationTitle("Property Details")
+		.navigationTitle(property.address1)
 	}
 
 	// MARK: - Header Section

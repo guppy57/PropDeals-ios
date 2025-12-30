@@ -36,18 +36,18 @@ struct SQLDate: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
-        if container.decodeNil() {
+        // Try to decode as String - handles missing keys, null values, and valid strings
+        do {
+            let dateString = try container.decode(String.self)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            wrappedValue = formatter.date(from: dateString)
+        } catch {
+            // Key missing, null value, or decoding error - set to nil
             wrappedValue = nil
-            return
         }
-
-        let dateString = try container.decode(String.self)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-        wrappedValue = formatter.date(from: dateString)
     }
 
     func encode(to encoder: Encoder) throws {

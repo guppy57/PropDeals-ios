@@ -110,6 +110,7 @@ struct FinancialLineItem: View {
 
 struct TourPropertyDetailView: View {
 	let property: PropertyWithCalculations
+	@State private var showingScreeningSheet = false
 
 	var body: some View {
 		ScrollView {
@@ -156,9 +157,9 @@ struct TourPropertyDetailView: View {
 			ToolbarItemGroup(placement: .bottomBar) {
 				// Left button - standalone
 				Button(action: {
-					print("DEBUG: Favorite tapped for property: \(property.address1)")
+					showingScreeningSheet = true
 				}) {
-					Label("Favorite", systemImage: "star")
+					Label("Screening", systemImage: "eye")
 				}
 
 				Spacer()
@@ -188,6 +189,19 @@ struct TourPropertyDetailView: View {
 				}
 			}
 		}
+		.sheet(isPresented: $showingScreeningSheet) {
+			NavigationStack {
+				PropertyScreeningView(property: property)
+					.navigationBarTitleDisplayMode(.inline)
+					.toolbar {
+						ToolbarItem(placement: .cancellationAction) {
+							Button("Done") {
+								showingScreeningSheet = false
+							}
+						}
+					}
+			}
+		}
 	}
 
 	// MARK: - Financials Section Helper
@@ -199,17 +213,10 @@ struct TourPropertyDetailView: View {
 				.font(.title2)
 				.fontWeight(.bold)
 
-			// Quick Estimate
 			quickEstimateSection(for: property)
-
 			Divider()
-
-			// Market Rent Year 1
 			marketRentYear1Section(for: property)
-
 			Divider()
-
-			// Market Rent Year 2
 			marketRentYear2Section(for: property)
 		}
 	}
@@ -222,11 +229,9 @@ struct TourPropertyDetailView: View {
 				.font(.headline)
 				.fontWeight(.semibold)
 
-			// Income
 			FinancialLineItem(label: "Total Rent", value: property.totalRent, valueType: .income)
 			FinancialLineItem(label: "Roommate Utilities", value: property.roommateUtilities, valueType: .income)
 
-			// Operating Expenses
 			Text("Operating Expenses")
 				.font(.subheadline)
 				.fontWeight(.medium)
@@ -238,7 +243,6 @@ struct TourPropertyDetailView: View {
 			FinancialLineItem(label: "Property Taxes", value: property.monthlyTaxes, valueType: .cost)
 			FinancialLineItem(label: "Insurance", value: property.monthlyInsurance, valueType: .cost)
 
-			// Debt Service
 			Text("Debt Service")
 				.font(.subheadline)
 				.fontWeight(.medium)
@@ -250,19 +254,14 @@ struct TourPropertyDetailView: View {
 				FinancialLineItem(label: "MIP/PMI", value: mip, valueType: .cost)
 			}
 
-			// Other Costs
 			FinancialLineItem(label: "Owner Utilities", value: property.ownerUtilities, valueType: .cost)
-
-			// Equity Building
 			FinancialLineItem(label: "Amortization", value: property.ammoritizationEstimate, valueType: .equity)
 
-			// NOI (calculated)
 			if let totalRent = property.totalRent, let opEx = property.operatingExpenses {
 				let noi = totalRent - opEx
 				FinancialLineItem(label: "Net Operating Income", value: noi, valueType: .neutral)
 			}
 
-			// Cash Flow
 			Divider()
 			FinancialLineItem(label: "Monthly Cash Flow", value: property.monthlyCashFlow, valueType: .cashFlow)
 				.font(.headline)
@@ -277,11 +276,9 @@ struct TourPropertyDetailView: View {
 				.font(.headline)
 				.fontWeight(.semibold)
 
-			// Income
 			FinancialLineItem(label: "Market Rent", value: property.mrNetRentY1, valueType: .income)
 			FinancialLineItem(label: "Roommate Utilities", value: property.roommateUtilitiesY1, valueType: .income)
 
-			// Operating Expenses
 			Text("Operating Expenses")
 				.font(.subheadline)
 				.fontWeight(.medium)
@@ -293,7 +290,6 @@ struct TourPropertyDetailView: View {
 			FinancialLineItem(label: "Property Taxes", value: property.monthlyTaxes, valueType: .cost)
 			FinancialLineItem(label: "Insurance", value: property.monthlyInsurance, valueType: .cost)
 
-			// Debt Service
 			Text("Debt Service")
 				.font(.subheadline)
 				.fontWeight(.medium)
@@ -305,16 +301,9 @@ struct TourPropertyDetailView: View {
 				FinancialLineItem(label: "MIP/PMI", value: mip, valueType: .cost)
 			}
 
-			// Other Costs
 			FinancialLineItem(label: "Owner Utilities", value: property.ownerUtilitiesY1, valueType: .cost)
-
-			// Equity Building
 			FinancialLineItem(label: "Amortization", value: property.ammoritizationEstimate, valueType: .equity)
-
-			// NOI
 			FinancialLineItem(label: "Net Operating Income", value: property.mrMonthlyNOIY1, valueType: .neutral)
-
-			// Cash Flow
 			Divider()
 			FinancialLineItem(label: "Monthly Cash Flow", value: property.mrMonthlyCashFlowY1, valueType: .cashFlow)
 				.font(.headline)
@@ -329,11 +318,9 @@ struct TourPropertyDetailView: View {
 				.font(.headline)
 				.fontWeight(.semibold)
 
-			// Income
 			FinancialLineItem(label: "Market Rent", value: property.mrNetRentY2, valueType: .income)
 			FinancialLineItem(label: "Roommate Utilities", value: property.roommateUtilitiesY2, valueType: .income)
 
-			// Operating Expenses
 			Text("Operating Expenses")
 				.font(.subheadline)
 				.fontWeight(.medium)
@@ -345,7 +332,6 @@ struct TourPropertyDetailView: View {
 			FinancialLineItem(label: "Property Taxes", value: property.monthlyTaxes, valueType: .cost)
 			FinancialLineItem(label: "Insurance", value: property.monthlyInsurance, valueType: .cost)
 
-			// Debt Service
 			Text("Debt Service")
 				.font(.subheadline)
 				.fontWeight(.medium)
@@ -357,16 +343,9 @@ struct TourPropertyDetailView: View {
 				FinancialLineItem(label: "MIP/PMI", value: mip, valueType: .cost)
 			}
 
-			// Other Costs
 			FinancialLineItem(label: "Owner Utilities", value: property.ownerUtilitiesY2, valueType: .cost)
-
-			// Equity Building
 			FinancialLineItem(label: "Amortization", value: property.ammoritizationEstimate, valueType: .equity)
-
-			// NOI
 			FinancialLineItem(label: "Net Operating Income", value: property.mrMonthlyNOIY2, valueType: .neutral)
-
-			// Cash Flow
 			Divider()
 			FinancialLineItem(label: "Monthly Cash Flow", value: property.mrMonthlyCashFlowY2, valueType: .cashFlow)
 				.font(.headline)

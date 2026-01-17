@@ -240,6 +240,7 @@ struct TourPropertyDetailView: View {
 
 			FinancialLineItem(label: "Vacancy Reserve", value: property.monthlyVacancyCosts, valueType: .cost)
 			FinancialLineItem(label: "Repairs Reserve", value: property.monthlyRepairCosts, valueType: .cost)
+			FinancialLineItem(label: "CapEx Reserve", value: property.capexReserve, valueType: .cost)
 			FinancialLineItem(label: "Property Taxes", value: property.monthlyTaxes, valueType: .cost)
 			FinancialLineItem(label: "Insurance", value: property.monthlyInsurance, valueType: .cost)
 
@@ -287,6 +288,7 @@ struct TourPropertyDetailView: View {
 
 			FinancialLineItem(label: "Vacancy Reserve", value: property.mrMonthlyVacancyCosts, valueType: .cost)
 			FinancialLineItem(label: "Repairs Reserve", value: property.mrMonthlyRepairCosts, valueType: .cost)
+			FinancialLineItem(label: "CapEx Reserve", value: property.capexReserve, valueType: .cost)
 			FinancialLineItem(label: "Property Taxes", value: property.monthlyTaxes, valueType: .cost)
 			FinancialLineItem(label: "Insurance", value: property.monthlyInsurance, valueType: .cost)
 
@@ -329,6 +331,7 @@ struct TourPropertyDetailView: View {
 
 			FinancialLineItem(label: "Vacancy Reserve", value: property.mrMonthlyVacancyCosts, valueType: .cost)
 			FinancialLineItem(label: "Repairs Reserve", value: property.mrMonthlyRepairCosts, valueType: .cost)
+			FinancialLineItem(label: "CapEx Reserve", value: property.capexReserve, valueType: .cost)
 			FinancialLineItem(label: "Property Taxes", value: property.monthlyTaxes, valueType: .cost)
 			FinancialLineItem(label: "Insurance", value: property.monthlyInsurance, valueType: .cost)
 

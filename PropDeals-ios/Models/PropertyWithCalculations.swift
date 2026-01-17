@@ -190,6 +190,7 @@ struct PropertyWithCalculations: Codable, Identifiable {
     // MARK: - Operating Expenses
     let monthlyVacancyCosts: Double?
     let monthlyRepairCosts: Double?
+    let capexReserve: Double?
     let operatingExpenses: Double?
 
     // MARK: - Utilities
@@ -462,6 +463,7 @@ struct PropertyWithCalculations: Codable, Identifiable {
         case annualRent = "annual_rent"
         case monthlyVacancyCosts = "monthly_vacancy_costs"
         case monthlyRepairCosts = "monthly_repair_costs"
+        case capexReserve = "monthly_capex_costs"
         case operatingExpenses = "operating_expenses"
         case monthlyUtilityElectric = "monthly_utility_electric"
         case monthlyUtilityGas = "monthly_utility_gas"
